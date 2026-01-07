@@ -1,0 +1,237 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table thead {
+  background: linear-gradient(135deg, #7a0c0c 0%, #5a0a0a 100%);
+  color: white;
+}
+
+.table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #f4c430;
+}
+
+.table th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: #fff7d6;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table td {
+  padding: 14px 16px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.table td:first-child {
+  font-weight: 500;
+  color: #7a0c0c;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.editBtn,
+.deleteBtn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.editBtn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+}
+
+.editBtn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.deleteBtn {
+  background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: linear-gradient(135deg, #da190b 0%, #f44336 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+}
+
+.editBtn:active,
+.deleteBtn:active {
+  transform: translateY(0);
+}
+
+/* Empty state */
+.table tbody:empty::after {
+  content: "No classes found";
+  display: block;
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.iconBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+/* View */
+.view {
+  background: linear-gradient(135deg, #2196F3, #1e88e5);
+}
+
+.view:hover {
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Edit */
+.edit {
+  background: linear-gradient(135deg, #4CAF50, #43a047);
+}
+
+.edit:hover {
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Delete */
+.delete {
+  background: linear-gradient(135deg, #f44336, #e53935);
+}
+
+.delete:hover {
+  box-shadow: 0 4px 10px rgba(244, 67, 54, 0.4);
+  transform: translateY(-2px);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 8px;
+  }
+
+  .table th {
+    font-size: 0.8rem;
+  }
+
+  .table td button {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    margin-right: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .table thead,
+  .table tbody,
+  .table tr,
+  .table td,
+  .table th {
+    display: block;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .table td {
+    padding: 8px;
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .table td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+    color: #7a0c0c;
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+  }
+}
+
