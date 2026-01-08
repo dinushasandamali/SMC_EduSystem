@@ -2,6 +2,7 @@ package com.backend.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,65 +19,64 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+    // 🔐 Password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // 🔐 Authentication manager
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // 🔐 Security filter chain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                // ✅ Enable CORS & disable CSRF
+                // Enable CORS & disable CSRF
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
 
-
-                // ✅ Disable frame blocking (Swagger fix)
+                // Disable frame options (Swagger / H2 support)
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-                // ✅ Stateless session
+                // Stateless session (JWT ready)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
+                // Authorization rules
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ Allow OPTIONS (VERY IMPORTANT)
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                        // Allow preflight requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // ✅ Swagger paths
+                        // Swagger endpoints
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html"
                         ).permitAll()
 
-                        // ✅ Auth APIs
+                        // Authentication endpoints
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // 🔐 ADMIN ONLY
+                        // Admin-only APIs
                         .requestMatchers("/api/students/**").hasRole("ADMIN")
                         .requestMatchers("/api/teachers/**").hasRole("ADMIN")
 
-                        // Others must be authenticated
+                        // All other requests need authentication
                         .anyRequest().authenticated()
-
-                        // ⚠️ TEMP: Allow all other endpoints without authentication
-                        // TODO: Re-introduce proper JWT-based security once a filter is added
-                        .anyRequest().permitAll()
                 );
 
         return http.build();
     }
 
-    // 🔹 Global CORS configuration (Next.js + Swagger)
+    // 🌐 Global CORS configuration (Next.js + Swagger)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
